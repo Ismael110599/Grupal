@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'home_screen.dart';
 import 'profile_screen.dart';
 import 'settings_screen.dart';
+import 'usuarios_screen.dart'; // ← NUEVA IMPORTACIÓN
 import '../widgets/custom_drawer.dart';
 
 class MainScreen extends StatefulWidget {
@@ -25,6 +26,7 @@ class _MainScreenState extends State<MainScreen> {
       const HomeScreen(),
       const ProfileScreen(),
       const SettingsScreen(),
+      UsuariosScreen(), // ← NUEVA PANTALLA
     ];
   }
 
@@ -42,6 +44,8 @@ class _MainScreenState extends State<MainScreen> {
         return 'Mi Perfil';
       case 2:
         return 'Configuración';
+      case 3:
+        return 'Usuarios'; // ← NUEVO TÍTULO
       default:
         return 'Mi App Flutter';
     }
@@ -50,8 +54,7 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset:
-          false, // ← CLAVE: Evita redimensionamiento automático
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(
@@ -61,11 +64,7 @@ class _MainScreenState extends State<MainScreen> {
         centerTitle: true,
       ),
       drawer: const CustomDrawer(),
-      body: IndexedStack(
-        // ← MEJOR: Preserva estados sin afectar dimensiones
-        index: _currentIndex,
-        children: _screens,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _screens),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           boxShadow: [
@@ -105,6 +104,12 @@ class _MainScreenState extends State<MainScreen> {
               activeIcon: Icon(Icons.settings),
               label: 'Configuración',
               tooltip: 'Configuraciones',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.group_outlined),
+              activeIcon: Icon(Icons.group),
+              label: 'Usuarios', // ← NUEVA PESTAÑA
+              tooltip: 'Usuarios cargados desde JSON',
             ),
           ],
         ),

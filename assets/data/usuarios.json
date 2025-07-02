@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "nombre": "Luis Andrade",
+    "email": "luis@correo.com",
+    "avatar": "https://randomuser.me/api/portraits/men/11.jpg"
+  },
+  {
+    "id": 2,
+    "nombre": "María Tello",
+    "email": "maria@correo.com",
+    "avatar": "https://randomuser.me/api/portraits/women/22.jpg"
+  }
+]
