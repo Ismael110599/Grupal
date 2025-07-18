@@ -1,22 +1,14 @@
+import 'package:hive/hive.dart';
+
+part 'usuario.g.dart';
+
+@HiveType(typeId: 0)
 class Usuario {
-  final int id;
+  @HiveField(0)
   final String nombre;
-  final String email;
-  final String avatar;
 
-  Usuario({
-    required this.id,
-    required this.nombre,
-    required this.email,
-    required this.avatar,
-  });
+  @HiveField(1)
+  final int edad;
 
-  factory Usuario.fromJson(Map<String, dynamic> json) {
-    return Usuario(
-      id: json['id'],
-      nombre: json['nombre'],
-      email: json['email'],
-      avatar: json['avatar'],
-    );
-  }
+  Usuario({required this.nombre, required this.edad});
 }

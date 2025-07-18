@@ -1,49 +1,66 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'dart:convert';
+import 'package:hive/hive.dart';
 import '../models/usuario.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 
 class UsuariosScreen extends StatefulWidget {
+  const UsuariosScreen({super.key});
+
   @override
-  _UsuariosScreenState createState() => _UsuariosScreenState();
+  State<UsuariosScreen> createState() => _UsuariosScreenState();
 }
 
 class _UsuariosScreenState extends State<UsuariosScreen> {
-  List<Usuario> usuarios = [];
+  final nameCtrl = TextEditingController();
+  final ageCtrl = TextEditingController();
 
-  Future<void> cargarUsuarios() async {
-    final data = await rootBundle.loadString('assets/data/usuarios.json');
-    final List<dynamic> jsonResult = json.decode(data);
-    setState(() {
-      usuarios = jsonResult.map((e) => Usuario.fromJson(e)).toList();
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    cargarUsuarios();
+  void _addUsuario() async {
+    final box = Hive.box<Usuario>('usuarios');
+    final nombre = nameCtrl.text.trim();
+    final edad = int.tryParse(ageCtrl.text) ?? 0;
+    if (nombre.isNotEmpty) {
+      await box.add(Usuario(nombre: nombre, edad: edad));
+      nameCtrl.clear();
+      ageCtrl.clear();
+      setState(() {});
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final usuarios = Hive.box<Usuario>('usuarios').values.toList();
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Usuarios')),
-      body: ListView.builder(
-        itemCount: usuarios.length,
-        itemBuilder: (context, index) {
-          final usuario = usuarios[index];
-          return ListTile(
-            leading: CachedNetworkImage(
-              imageUrl: usuario.avatar,
-              placeholder: (context, url) => const CircularProgressIndicator(),
-              errorWidget: (context, url, error) => const Icon(Icons.error),
+      appBar: AppBar(title: const Text("Usuarios")),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          children: [
+            TextField(
+              controller: nameCtrl,
+              decoration: const InputDecoration(labelText: "Nombre"),
             ),
-            title: Text(usuario.nombre),
-            subtitle: Text(usuario.email),
-          );
-        },
+            TextField(
+              controller: ageCtrl,
+              decoration: const InputDecoration(labelText: "Edad"),
+              keyboardType: TextInputType.number,
+            ),
+            ElevatedButton(
+              onPressed: _addUsuario,
+              child: const Text("Guardar"),
+            ),
+            const Divider(),
+            Expanded(
+              child: ListView.builder(
+                itemCount: usuarios.length,
+                itemBuilder:
+                    (_, i) => ListTile(
+                      title: Text(usuarios[i].nombre),
+                      subtitle: Text("Edad: ${usuarios[i].edad}"),
+                    ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
