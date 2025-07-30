@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "943114086300",
+    "project_id": "notificacionesremotas-e0e35",
+    "storage_bucket": "notificacionesremotas-e0e35.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:943114086300:android:d6553d51eb95f890c08a59",
+        "android_client_info": {
+          "package_name": "com.example.app_flutter_practica"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4dOzPRgFDtljeWJAMng57pxngfMrz58M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
